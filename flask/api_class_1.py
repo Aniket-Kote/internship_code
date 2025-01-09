@@ -18,9 +18,11 @@ def add_numbers() -> float:
                 return {"error": "Invalid JSON payload"}, 400
             v1 = data.get('v1')
             v2 = data.get('v2')
+            # if the given data is not a number, convert it to a number
             if not isinstance(v1, (int, float)) or not isinstance(v2, (int, float)):
                     if isinstance(v1,str) and isinstance(v2,str):
                         # print("b3")
+                        # using string_to_num function to convert string to number
                         v1 = string_to_num(v1)
                         v2 = string_to_num(v2)
                         result = v1 + v2
@@ -64,18 +66,26 @@ def add_numbers() -> float:
         status = 400
         try:
             # Extract numbers from query parameters
-            numbers = request.args.getlist('nums')  # Retrieve list of 'nums' query parameters as floats
+            numbers = request.args.getlist('nums',type=float)  # Retrieve list of 'nums' query parameters as floats
             print(numbers)
             if not numbers:
                 return {"error": "No numbers provided. Use the 'nums' query parameter to pass numbers."}, status
             elif not isinstance(numbers, list):
                 return {"error": "Invalid number"}, status
             else:
-                for num in numbers:
-                    if isinstance(num,str):
-                        if any(num.isdigit() for n in num):
-                            num=string_to_num(num)
-                # Calculate the sum
+                # for num in numbers:
+                #     if isinstance(num,str):
+                #         if isinstance(num,(int,float)):
+                #             print("b1")
+                #             continue
+                #         else:
+                #             print("b2")
+                #             print(num)
+                #         if any(num.isdigit() for n in num):
+                #             num=string_to_num(num)
+                # # Calculate the sum
+                # print(numbers)
+
                 status = 200
                 total = sum(numbers)
                 return {'result': total}, status
