@@ -66,12 +66,23 @@ def add_numbers() -> float:
         status = 400
         try:
             # Extract numbers from query parameters
-            numbers = request.args.getlist('nums',type=float)  # Retrieve list of 'nums' query parameters as floats
+            numbers = request.args.getlist('nums')  # Retrieve list of 'nums' query parameters as floats
             print(numbers)
             if not numbers:
                 return {"error": "No numbers provided. Use the 'nums' query parameter to pass numbers."}, status
             elif not isinstance(numbers, list):
                 return {"error": "Invalid number"}, status
+            elif any(isinstance(num, (str)) for num in numbers):
+                for n in range(len(numbers)):
+                    if isinstance(numbers[n], (int,float)):
+                        continue
+                    elif isinstance(numbers[n], str):
+                        numbers[n] = string_to_num(numbers[n])
+                        continue
+                print(numbers)
+                total = sum(numbers)
+                return {'result': total}, 200
+                    
             else:
                 # for num in numbers:
                 #     if isinstance(num,str):
@@ -85,9 +96,10 @@ def add_numbers() -> float:
                 #             num=string_to_num(num)
                 # # Calculate the sum
                 # print(numbers)
-
+                print("SUMMATION BLOCK")
+                b = [int(item) for item in numbers]
                 status = 200
-                total = sum(numbers)
+                total = sum(b)
                 return {'result': total}, status
         except Exception as e:
             status = 500
