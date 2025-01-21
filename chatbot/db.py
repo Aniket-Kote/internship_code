@@ -1,6 +1,6 @@
 import pymongo
 from pymongo.errors import PyMongoError
-
+import os
 def get_mongo_client(uri):
     """Initialize and return a MongoDB client."""
     try:
@@ -11,7 +11,7 @@ def get_mongo_client(uri):
         raise RuntimeError(f"Failed to connect to MongoDB: {e}")
 
 # MongoDB connection setup
-MONGO_URI = "mongodb+srv://aniketkote080799:uBlEDOTviBr803f3@internship.udl8q.mongodb.net/"
+MONGO_URI = os.getenv("MONGO_URI")
 db_name = "internshipData"
 collection_name = "questions"
 

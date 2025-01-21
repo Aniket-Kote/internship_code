@@ -1,9 +1,9 @@
 from ai21 import AI21Client
 from ai21.models.chat import UserMessage
 import json
-
+import os
 # One way of passing your key to the client.
-client = AI21Client(api_key="ca6HOzLp2g017w7e7FKOi52Ba00SpMRg")
+client = AI21Client(api_key=os.environ.get('AI21_APIKEY'))
 
 # Another way to set your key is by setting the AI21_API_KEY
 # environment variable to your key value. The default value
